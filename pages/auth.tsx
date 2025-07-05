@@ -1,5 +1,6 @@
 import Input from "@/components/Input";
 import { useCallback, useState } from "react";
+import axios from "axios";
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -10,6 +11,17 @@ export default function Auth() {
       currentVariant === "login" ? "register" : "login"
     );
   }, []);
+  const register = useCallback(async () => {
+    try {
+      await axios.post("/api/register",{
+          email,
+          name,
+          password,
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email, name, password]);
   return (
     <div
       className="relative h-full w-full 
@@ -40,6 +52,13 @@ export default function Auth() {
                 ></Input>
               )}
               <Input
+                label="Email"
+                onChange={(ev: any) => setEmail(ev.target.value)}
+                id="email"
+                type="email"
+                value={email}
+              ></Input>
+              <Input
                 label="Password"
                 onChange={(ev: any) => {
                   setPassword(ev.target.value);
@@ -48,17 +67,11 @@ export default function Auth() {
                 type="password"
                 value={password}
               ></Input>
-              <Input
-                label="Email"
-                onChange={(ev: any) => {
-                  setEmail(ev.target.value);
-                }}
-                id="email"
-                type="email"
-                value={email}
-              ></Input>
             </div>
-            <button className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
+            <button
+              onClick={register}
+              className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition"
+            >
               {variant === "login" ? "Login" : "Register"}
             </button>
             <p className="text-neutral-500 mt-12">
