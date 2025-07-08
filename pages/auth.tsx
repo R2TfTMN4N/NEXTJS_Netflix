@@ -4,8 +4,12 @@ import axios from "axios";
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { useRouter } from "next/router";
+
 
 export default function Auth() {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -17,17 +21,23 @@ export default function Auth() {
   }, []);
   const login = useCallback(async () => {
     try {
-      await signIn("credentials", {
+      const response = await signIn("credentials", {
         email,
         password,
         redirect: false,
         callbackUrl: "/profiles",
       });
-      
+
+      if (response?.ok) {
+        router.push("/profiles");
+      } else {
+        console.log("Login failed:", response?.error);
+        alert("Login failed: " + response?.error); // hoặc setErrorMessage để hiển thị UI
+      }
     } catch (error) {
-      console.log(error);
+      console.log("Login error:", error);
     }
-  }, [email, password]);
+  }, [email, password, router]);
   const register = useCallback(async () => {
     try {
       await axios.post("/api/register", {
