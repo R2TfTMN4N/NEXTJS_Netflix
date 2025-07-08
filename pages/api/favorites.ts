@@ -9,7 +9,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse) {
     }
     try
     {
-        const currentUser= await serverAuth(req)
+        const currentUser= await serverAuth(req,res)
         const favoriteMovies=await prismadb.movie.findMany({
             where:{
                 id:{
@@ -20,8 +20,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse) {
         return res.status(200).json(favoriteMovies)
     }
     catch(error){
-        console.error("[FAVORITE_API_ERROR]", error); // Thêm log
-        return res.status(500).json({ error: "Internal Server Error" });
+        return res.status(400).end()
     }
 
     

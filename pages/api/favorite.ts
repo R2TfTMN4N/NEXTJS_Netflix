@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   try {
     if (req.method == "POST") {
-      const currentUser = await serverAuth(req);
+      const currentUser = await serverAuth(req,res);
       const { movieId } = req.body;
       if (!movieId || typeof movieId !== "string") {
         return res.status(400).json({ error: "Invalid movieId" });
@@ -34,7 +34,7 @@ export default async function handler(
       return res.status(200).json(user);
     }
     if (req.method === "DELETE") {
-      const currentUser = await serverAuth(req);
+      const currentUser = await serverAuth(req,res);
       const { movieId } = req.body;
       if (!movieId || typeof movieId !== "string") {
         return res.status(400).json({ error: "Invalid movieId" });
