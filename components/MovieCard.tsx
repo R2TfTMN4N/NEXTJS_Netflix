@@ -1,12 +1,14 @@
 import React from "react";
 import { FaPlay } from "react-icons/fa";
 import FavoriteButton from "./FavoriteButton";
+import { useRouter } from "next/router";
 
 interface MovieCardProps {
   data: Record<string, any>;
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
+  const router=useRouter()
   return (
     <div className="group bg-zinc-900 sol-span relative h-[12vw]">
       <img
@@ -89,7 +91,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
                                     hover:bg-neutral-700
 
                                     "
-              onClick={() => {}}
+              onClick={() => {router.push(`/watch/${data?.id}`)}}
             >
               <FaPlay />
             </div>

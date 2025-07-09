@@ -2,6 +2,7 @@ import React from "react";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 
 import useBillboard from "@/hooks/useBillboard";
+import PlayButton from "./PlayButton";
 const BillBoard = () => {
     const {data} = useBillboard();
     return (
@@ -23,6 +24,7 @@ const BillBoard = () => {
             {data?.description}
           </p>
           <div className="flex flex-row items-center mt-3 gap-3 md:gap-5 md:mt-4">
+              <PlayButton movieId={data?.id}/>          
             <button className="bg-white text-white bg-opacity-30
             rounded-md py-1 md:py-2 px-2 md:px-4
             w-auto text-xs lg:text-lg font-semibold
