@@ -2,13 +2,16 @@ import React from "react";
 import { FaPlay } from "react-icons/fa";
 import FavoriteButton from "./FavoriteButton";
 import { useRouter } from "next/router";
+import useInfoModal from "@/hooks/useInfoModal";
+import { FaChevronDown } from "react-icons/fa6";
 
 interface MovieCardProps {
   data: Record<string, any>;
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
-  const router=useRouter()
+  const router = useRouter();
+  const { openModal } = useInfoModal();
   return (
     <div className="group bg-zinc-900 sol-span relative h-[12vw]">
       <img
@@ -91,11 +94,25 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
                                     hover:bg-neutral-700
 
                                     "
-              onClick={() => {router.push(`/watch/${data?.id}`)}}
+              onClick={() => {
+                router.push(`/watch/${data?.id}`);
+              }}
             >
               <FaPlay />
             </div>
             <FavoriteButton movieId={data?.id} />
+            <div
+              onClick={()=>openModal(data?.id)}
+              className="
+              cursor-pointer
+              ml-auto group/item w-6 
+              h-6 lg:w-10 lg-h-10 border-white
+              rounded-full flex justify-center items-center transition hover:border-neutral-300
+            "
+            >
+              <FaChevronDown
+              size={30} className="text-white group-hover/item:text-neutral-300"/>
+            </div>
           </div>
           <p className="text-green-400 font-semibold mt-4">
             New <span className="text-white"> 2023</span>
